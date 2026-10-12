@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Academic Report Generator</title>
+    <style>
+        /* Global Reset and Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container Card */
+        .report-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 750px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 6px solid #1e3a8a; /* Dark Blue Theme */
+            position: relative;
+        }
+
+        /* Institutional Header */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Student Details Layout */
+        .student-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 24px;
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 35px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #475569;
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        /* Editable Input Fields styling */
+        .editable-input {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #0f172a;
+            background-color: #ffffff;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .editable-input:focus {
+            border-color: #1e3a8a;
+            background-color: #fff;
+        }
+
+        /* Academic Subject Table Layout */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .mark-cell-input {
+            width: 80px;
+            text-align: center;
+            padding: 4px;
+        }
+
+        .total-row {
+            background-color: #f1f5f9 !important;
+            font-weight: 700;
+            border-top: 2px solid #1e3a8a;
+            border-bottom: 2px solid #1e3a8a;
+            color: #0f172a;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Footer Action Layout */
+        .footer-actions {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .btn-generate {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-generate:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Web Print Optimization Stylesheet rules */
+        @media print {
+            body { background-color: #ffffff; padding: 0; }
+            .report-card { box-shadow: none; padding: 0; border: none; }
+            th { background-color: #1e3a8a !important; color: #ffffff !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+            .total-row td { background-color: #f1f5f9 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+            
+            /* Remove standard form aesthetic for printouts */
+            .editable-input {
+                border: none !important;
+                background-color: transparent !important;
+                padding: 0 !important;
+                width: auto;
+            }
+            /* Hide the generate report action container during printing */
+            .footer-actions {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-card">
+        <!-- Institutional Header -->
+        <div class="header">
+            <h1>Department of Computer Applications</h1>
+            <p>Academic Performance Statement</p>
+        </div>
+
+        <!-- Student Details Block (Editable Fields) -->
+        <div class="student-details">
+            <div class="info-row">
+                <span class="info-label">Student ID:</span>
+                <input type="text" class="editable-input" value="BCA-2024-890">
+            </div>
+            <div class="info-row">
+                <span class="info-label">Student Name:</span>
+                <input type="text" class="editable-input" value="Rahul V. Nair">
+            </div>
+            <div class="info-row">
+                <span class="info-label">Registration No:</span>
+                <input type="text" class="editable-input" value="REG12049382">
+            </div>
+            <div class="info-row">
+                <span class="info-label">Attendance:</span>
+                <input type="text" class="editable-input" value="92.4%">
+            </div>
+            <div class="info-row">
+                <span class="info-label">Cumulative CGPA:</span>
+                <input type="text" class="editable-input" value="8.42 / 10.00">
+            </div>
+        </div>
+
+        <!-- Course & Summary Table Framework -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th class="text-center">Max Marks</th>
+                    <th class="text-center">Marks Obtained</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BCA-301</td>
+                    <td>Database Management Systems</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="85" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>BCA-302</td>
+                    <td>Data Structures & Algorithms</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="78" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>BCA-303</td>
+                    <td>Computer Networks</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="82" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>BCA-304</td>
+                    <td>Software Engineering</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="90" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>BCA-305</td>
+                    <td>Web Technologies Lab</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="88" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>BCA-306</td>
+                    <td>Object Oriented Programming Lab</td>
+                    <td class="text-center">100</td>
+                    <td class="text-center">
+                        <input type="number" class="editable-input mark-cell-input mark-field" value="81" oninput="calculateTotal()">
+                    </td>
+                </tr>
+                <!-- Final Total Summary Line -->
+                <tr class="total-row">
+                    <td>TOTAL</td>
+                    <td>Aggregate Marks</td>
+                    <td class="text-center">600</td>
+                    <td class="text-center" id="total-display">504</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer Actions (Left-aligned Button) -->
+        <div class="footer-actions">
+            <button type="button" class="btn-generate" onclick="generateReport()">Generate Report</button>
+        </div>
+    </div>
+
+    <script>

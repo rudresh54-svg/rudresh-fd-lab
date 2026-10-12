@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Task list</h2>
+
+    <input id="task" placeholder="enter task">
+    <button onclick="add()">Add Task</button>
+
+    <ul id="list"></ul>
+
+    <script>
+        function add() {
+            let input = document.querySelector("#task");
+
+            if (!input.value) return;
+
+            let li = document.createElement("li");
+
+            li.innerHTML = `
+                <span>${input.value}</span>
+                <button onclick="edit(this)">Edit</button>
+                <button onclick="this.parentElement.remove()">Delete</button>
+            `;
+
+            document.querySelector("#list").append(li);
+
+            input.value = "";
+        }
+
+        function edit(btn) {
+            let li = btn.parentElement;
+            let span = li.querySelector("span");
+
+            let text = prompt("Edit task:", span.textContent);
+
+            if (text) {
+                span.textContent = text;
+                li.style.color = "green";
+            }
+        }
+    </script>
+</body>
+</html>
